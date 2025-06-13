@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login Panel Kai</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-in.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-black to-gray-800 flex justify-center items-center min-h-screen p-4">
+  <div id="panel" class="fade-in w-full max-w-md bg-white rounded-3xl shadow-2xl border-4 border-red-600 overflow-hidden">
+    <div class="text-center font-extrabold text-red-700 text-3xl py-6 border-b-4 border-red-600 select-none">
+      🔐 Login to Panel Kai
+    </div>
+    <p class="text-gray-700 text-center px-6 mt-4 mb-8 text-sm sm:text-base font-medium">
+      Enter your credentials to access the injector panel.
+    </p>
+    <form id="loginForm" class="space-y-6 px-8 pb-8">
+      <label class="flex flex-col font-semibold text-gray-800">
+        Username:
+        <input
+          id="username"
+          type="text"
+          placeholder="username"
+          required
+          class="mt-2 p-3 rounded-lg border border-gray-300 focus:border-red-600 focus:ring-2 focus:ring-red-300 outline-none text-gray-900"
+        />
+      </label>
+      <label class="flex flex-col font-semibold text-gray-800">
+        Password:
+        <input
+          id="password"
+          type="password"
+          placeholder="password"
+          required
+          class="mt-2 p-3 rounded-lg border border-gray-300 focus:border-red-600 focus:ring-2 focus:ring-red-300 outline-none text-gray-900"
+        />
+      </label>
+      <button
+        type="submit"
+        class="w-full bg-red-600 hover:bg-red-700 transition text-white font-extrabold py-4 rounded-xl shadow-md"
+      >
+        Login
+      </button>
+    </form>
+
+    <!-- Tombol akses admin panel jika kode rahasia benar -->
+    <div id="adminAccessDiv" class="px-8 pb-8 hidden">
+      <button
+        id="adminAccessBtn"
+        class="w-full bg-red-500 hover:bg-red-700 transition text-white font-extrabold py-3 rounded-xl shadow-md"
+      >
+        🔧 Go to Admin Panel
+      </button>
+    </div>
+
+    <div class="text-center border-t border-gray-200 py-6">
+      <a href="mailto:kai@example.com" class="text-red-600 hover:text-red-800 font-semibold underline transition text-lg">
+        📩 Contact Kai
+      </a>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("panel").classList.add("show");
+      removeExpiredUsers();
+    });
+
+    function removeExpiredUsers() {
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+      const now = Date.now();
+      const validUsers = users.filter(user => !user.expiresAt || user.expiresAt > now);
+      localStorage.setItem("users", JSON.stringify(validUsers));
+    }
+
+    const loginForm = document.getElementById("loginForm");
+    const usernameInput = document.getElementById("username");
+    const adminAccessDiv = document.getElementById("adminAccessDiv");
+    const adminAccessBtn = document.getElementById("adminAccessBtn");
+
+    // Cek input username, kalau "1100" munculkan tombol admin
+    usernameInput.addEventListener("input", () => {
+      if (usernameInput.value.trim() === "1100") {
+        adminAccessDiv.classList.remove("hidden");
+      } else {
+        adminAccessDiv.classList.add("hidden");
+      }
+    });
+
+    adminAccessBtn.addEventListener("click", () => {
+      window.location.href = "add_user.html";
+    });
+
+    loginForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const username = usernameInput.value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      // Jika username = 1100, jangan login tapi arahkan ke admin panel
+      if (username === "1100") {
+        alert("Please use the admin button below to access the Admin Panel.");
+        return;
+      }
+
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+      const now = Date.now();
+      const validUsers = users.filter(user => !user.expiresAt || user.expiresAt > now);
+      localStorage.setItem("users", JSON.stringify(validUsers));
+
+      const userFound = validUsers.find(u => u.username === username && u.password === password);
+
+      if (userFound) {
+        window.location.href = "injector.html";
+      } else {
+        alert("Invalid username or password, or account expired.");
+      }
+    });
+  </script>
+</body>
+</html>

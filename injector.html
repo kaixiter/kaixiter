@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Injector Kai</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+</head>
+<body class="bg-black min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-md space-y-6">
+    <div class="bg-yellow-400 text-black text-center italic font-semibold py-4 border-b-8 border-black">
+      INJECTOR KAI
+    </div>
+
+    <div class="bg-yellow-400 text-black px-6 py-6 border-b-8 border-black space-y-6">
+      <!-- Opsi fitur -->
+      <div class="flex items-center justify-between">
+        <span class="font-bold text-base leading-none">AIM TRACKING</span>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" class="sr-only peer" />
+          <div class="w-10 h-6 bg-gray-200 rounded-full peer peer-checked:bg-gray-300 shadow-lg"></div>
+          <div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-transform peer-checked:translate-x-4"></div>
+        </label>
+      </div>
+      <!-- Tambahan fitur lainnya tetap sama... -->
+      <div class="flex items-center justify-between">
+        <span class="font-bold text-base leading-none">STABILIZER AIM</span>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" class="sr-only peer" />
+          <div class="w-10 h-6 bg-gray-200 rounded-full peer peer-checked:bg-gray-300 shadow-lg"></div>
+          <div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-transform peer-checked:translate-x-4"></div>
+        </label>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="font-bold text-base leading-none">BYPASS ANTIBAN</span>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" class="sr-only peer" />
+          <div class="w-10 h-6 bg-gray-200 rounded-full peer peer-checked:bg-gray-300 shadow-lg"></div>
+          <div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-transform peer-checked:translate-x-4"></div>
+        </label>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="font-bold text-base leading-none">FPS STABILIZER</span>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" class="sr-only peer" />
+          <div class="w-10 h-6 bg-gray-200 rounded-full peer peer-checked:bg-gray-300 shadow-lg"></div>
+          <div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-transform peer-checked:translate-x-4"></div>
+        </label>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="font-bold text-base leading-none">HOLOGRAM (BETA)</span>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" class="sr-only peer" />
+          <div class="w-10 h-6 bg-gray-200 rounded-full peer peer-checked:bg-gray-300 shadow-lg"></div>
+          <div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-transform peer-checked:translate-x-4"></div>
+        </label>
+      </div>
+    </div>
+
+    <div class="bg-yellow-400 text-black font-bold text-sm leading-tight px-6 py-6 border-b-8 border-black">
+      NOTE : THIS MOD MENU ANTIBAN 100%, JANGAN AKTIFKAN SHIZUKU / VPN LAINNYA SAAT BERMAIN KARENA AKUN ANDA DAPAT TERKENA BL ATAPUN BANNED PERMANENT
+      <br /><br />
+      PENTING : JIKA KETAHUAN MEMBAGIKAN APK INI SEMUA KEY AKAN DI NONAKTIFKAN.
+    </div>
+
+    <button
+      id="activateBtn"
+      class="w-full bg-blue-800 text-black font-bold py-4 border-8 border-black"
+      type="button"
+    >
+      ACTIVÉ
+    </button>
+
+    <!-- Pesan sukses -->
+    <div id="successMessage" class="text-green-400 font-semibold text-center hidden">
+      ✅ Success run this cheat
+    </div>
+  </div>
+
+  <!-- Script untuk tombol -->
+  <script>
+    document.getElementById('activateBtn').addEventListener('click', function () {
+      const message = document.getElementById('successMessage');
+      message.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>

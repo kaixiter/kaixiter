@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - Add User</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 flex justify-center items-center min-h-screen p-4">
+  <div class="w-full max-w-md bg-white p-6 rounded shadow">
+    <h2 class="text-xl font-bold text-center text-blue-600 mb-1">🛠 Add New User</h2>
+    <p class="text-sm text-gray-600 text-center mb-4">This admin panel allows you to create users that expire automatically.</p>
+
+    <!-- Form Tambah User -->
+    <form id="addUserForm" class="space-y-4 mb-6">
+      <input
+        type="text"
+        id="newUsername"
+        placeholder="New Username"
+        required
+        class="w-full border border-gray-400 p-2"
+      />
+      <input
+        type="password"
+        id="newPassword"
+        placeholder="New Password"
+        required
+        class="w-full border border-gray-400 p-2"
+      />
+      <button
+        type="submit"
+        class="w-full bg-blue-600 text-white font-bold py-2 hover:bg-blue-700"
+      >
+        ➕ Add User (1 Hour)
+      </button>
+    </form>
+
+    <!-- Daftar User -->
+    <div id="userList" class="space-y-2">
+      <h3 class="text-lg font-semibold mb-2">Current Users:</h3>
+    </div>
+
+    <!-- Kembali -->
+    <a href="index.html" class="block mt-6 text-center text-red-600 underline">← Back to Login</a>
+  </div>
+
+  <script>
+    const EXPIRE_DURATION_MS = 1 * 60 * 60 * 1000; // 1 jam
+
+    function loadUsers() {
+      const userListDiv = document.getElementById("userList");
+      const users = getValidUsers();
+
+      const userItems = users.map((user, index) => {
+        const expiresIn = Math.max(0, Math.floor((user.expiresAt - Date.now()) / 60000));
+        return `
+          <div class="flex justify-between items-center bg-gray-100 px-3 py-2 rounded">
+            <span class="text-sm font-medium text-gray-800">${user.username} <span class="text-xs text-gray-500">(expires in ${expiresIn}m)</span></span>
+            <button onclick="deleteUser(${index})" class="text-red-600 hover:text-red-800 text-sm font-bold">Delete</button>
+          </div>
+        `;
+      }).join("");
+
+      userListDiv.innerHTML = userItems || '<p class="text-sm text-gray-500">No users available.</p>';
+    }
+
+    function getValidUsers() {
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+      const now = Date.now();
+      const validUsers = users.filter(user => !user.expiresAt || user.expiresAt > now);
+      localStorage.setItem("users", JSON.stringify(validUsers));
+      return validUsers;
+    }
+
+    document.getElementById("addUserForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const username = document.getElementById("newUsername").value;
+      const password = document.getElementById("newPassword").value;
+
+      let users = getValidUsers();
+      const expiresAt = Date.now() + EXPIRE_DURATION_MS;
+
+      users.push({ username, password, expiresAt });
+      localStorage.setItem("users", JSON.stringify(users));
+      document.getElementById("addUserForm").reset();
+      loadUsers();
+      alert("User added for 1 hour!");
+    });
+
+    function deleteUser(index) {
+      let users = getValidUsers();
+      if (confirm(`Delete user "${users[index].username}"?`)) {
+        users.splice(index, 1);
+        localStorage.setItem("users", JSON.stringify(users));
+        loadUsers();
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", loadUsers);
+  </script>
+</body>
+</html>
